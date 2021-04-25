@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ClinicWebApplication.PatientSymptom>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>Симптоми пацієнта @ViewBag.patientName</h1>
+
+<p>
+    <a asp-action="Create" asp-route-patientId ="@ViewBag.patientId">Додати симптом пацієнту @ViewBag.patientName</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Time)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Symptom)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Time)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Symptom.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" asp-route-patientId ="@ViewBag.patientId">Редагувати</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" asp-route-patientId ="@ViewBag.patientId">Видалити</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<form asp-action="Determine" asp-route-patientId="@ViewBag.patientId">
+    <div class="form-group">
+        <input type="submit" value="Визначити хворобу" class="btn btn-primary" />
+    </div>
+</form>

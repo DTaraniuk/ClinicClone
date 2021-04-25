@@ -13,15 +13,23 @@ namespace ClinicWebApplication.Controllers
     {
         private readonly DBClinicContext _context;
 
+        
+
         public SpecialitiesController(DBClinicContext context)
         {
             _context = context;
         }
 
         // GET: Specialities
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id, string? name)
         {
-            return View(await _context.Specialities.ToListAsync());
+            if (name == null)
+                return View(await _context.Specialities.ToListAsync());
+
+            ViewBag.docId = id;
+            ViewBag.docName = name;
+            var doctorsBySpeciality = _context.DoctorSpecialities.Where(DS => DS.DoctorId == id).Select(DS => DS.Speciality);
+            return View(await doctorsBySpeciality.ToListAsync());
         }
 
         // GET: Specialities/Details/5
@@ -39,13 +47,17 @@ namespace ClinicWebApplication.Controllers
                 return NotFound();
             }
 
-            return View(speciality);
+            return RedirectToAction("Index", "DoctorSpecialities", new {dsid = speciality.Id, name = speciality.Name, from = "spec" });
         }
 
         // GET: Specialities/Create
-        public IActionResult Create()
+        public IActionResult Create(int? docId, string? docName)
         {
-            return View();
+            if(docId == null) return View();
+            else
+            {
+                return RedirectToAction("Create", "DoctorSpecialities", new { id = docId, name = docName, from = "doc" });
+            }
         }
 
         // POST: Specialities/Create
@@ -138,6 +150,9 @@ namespace ClinicWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var doctorSpecialities = _context.DoctorSpecialities.Where(ds => ds.SpecialityId == id);
+            _context.DoctorSpecialities.RemoveRange(doctorSpecialities);
+
             var speciality = await _context.Specialities.FindAsync(id);
             _context.Specialities.Remove(speciality);
             await _context.SaveChangesAsync();

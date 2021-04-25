@@ -48,7 +48,7 @@ namespace ClinicWebApplication.Controllers
         // GET: Appointments/Create
         public IActionResult Create()
         {
-            ViewData["PatientId"] = new SelectList(_context.Patients, "Id", "Id");
+            ViewData["PatientId"] = new SelectList(_context.Patients, "Id", "Name");
             ViewData["ScheduleId"] = new SelectList(_context.Schedules, "Id", "Id");
             return View();
         }

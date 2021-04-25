@@ -1,0 +1,36 @@
+﻿@model List<IllnessWithProbability>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Можливі хвороби пацієнта @ViewBag.PatientName</h1>    
+
+<a asp-controller="PatientSymptoms" asp-action="Index" asp-route-patientId =@ViewBag.patientId>Назад</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Назва хвороби
+            </th>
+            <th>
+                Ймовірність хвороби
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+
+            <td> 
+                @Html.DisplayFor(modelItem => item.Prob)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

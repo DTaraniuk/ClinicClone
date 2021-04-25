@@ -15,6 +15,8 @@ namespace ClinicWebApplication
         public DBClinicContext(DbContextOptions<DBClinicContext> options)
             : base(options)
         {
+            //Database.EnsureDeleted();
+            Database.EnsureCreated();
         }
 
         public virtual DbSet<Appointment> Appointments { get; set; }
@@ -41,7 +43,7 @@ namespace ClinicWebApplication
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-KOSTYA; Database=DBClinic; Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=NATALI\\SQLEXPRESS; Database=DBClinic; Trusted_Connection=True;");
             }
         }
 
@@ -51,9 +53,7 @@ namespace ClinicWebApplication
 
             modelBuilder.Entity<Appointment>(entity =>
             {
-                entity.Property(e => e.Time)
-                    .IsRowVersion()
-                    .IsConcurrencyToken();
+                entity.Property(e => e.Time).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Patient)
                     .WithMany(p => p.Appointments)
@@ -199,9 +199,7 @@ namespace ClinicWebApplication
 
             modelBuilder.Entity<PatientSymptom>(entity =>
             {
-                entity.Property(e => e.Time)
-                    .IsRowVersion()
-                    .IsConcurrencyToken();
+                entity.Property(e => e.Time).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Patient)
                     .WithMany(p => p.PatientSymptoms)

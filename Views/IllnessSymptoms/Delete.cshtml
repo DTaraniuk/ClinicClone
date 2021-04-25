@@ -1,0 +1,58 @@
+﻿@model ClinicWebApplication.IllnessSymptom
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Видалити</h1>
+
+Ви впевнені, що ви хочете це видалити?
+<div>
+    <h4>Симптом хвороби</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Frequency)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Frequency)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Illness)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Illness.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Symptom)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Symptom.Name)
+        </dd>
+    </dl>
+    @if (ViewBag.IllnessChosenId != -1)
+    {
+        <form asp-action="Delete" asp-route-illnessId="@ViewBag.IllnessChosenId" asp-route-symptomId="-1">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Видалити" class="btn btn-danger" />
+        </form>
+    }
+    else
+    {
+        <form asp-action="Delete" asp-route-illnessId="-1" asp-route-symptomId="@ViewBag.SymptomChosenId">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Видалити" class="btn btn-danger" />
+        </form>
+    }
+</div>
+
+<div>
+    @if (ViewBag.IllnessChosenId != -1)
+    {
+        <a asp-action="IndexByIllness" asp-route-id="@ViewBag.IllnessChosenId" asp-route-name="@ViewBag.IllnessName">Назад</a>
+    }
+    else
+    {
+        <a asp-action="IndexBySymptom" asp-route-id="@ViewBag.SymptomChosenId" asp-route-name="@ViewBag.SymptomName">Назад</a>
+    }
+</div>

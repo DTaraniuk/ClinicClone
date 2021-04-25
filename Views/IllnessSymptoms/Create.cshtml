@@ -1,0 +1,97 @@
+﻿@model ClinicWebApplication.IllnessSymptom
+
+@{
+    ViewData["Title"] = "Створити";
+}
+
+
+
+@if (ViewBag.SymptomChosenId != -1)
+{
+    <h1>Додати симптом @ViewBag.SymptomName в нову хворобу</h1>
+}
+else
+{ 
+    <h1>Додати новий симптом до хвороби @ViewBag.IllnessName</h1>
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @if(ViewBag.SymptomChosenId != -1)
+        {
+            <form asp-action="CreateFromSymptom">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @if (ViewBag.SymptomChosenId != -1)
+                {
+                    <div class="form-group">
+                        <label asp-for="Illness.Name" class="control-label"></label>
+                        <select asp-for="IllnessId" class="form-control" asp-items="ViewBag.IllnessId"></select>
+                    </div>
+                    <input type="hidden" value="@ViewBag.SymptomChosenId" name="SymptomId" />
+                }
+                else if (ViewBag.IllnessChosenId != -1)
+                {
+                    <input type="hidden" value="@ViewBag.IllnessChosenId" name="IllnessId" />
+                    <div class="form-group">
+                        <label asp-for="Symptom.Name" class="control-label"></label>
+                        <select asp-for="SymptomId" class="form-control" asp-items="ViewBag.SymptomId"></select>
+                    </div>
+                }
+                <div class="form-group">
+                    <label asp-for="Frequency" class="control-label"></label>
+                    <input asp-for="Frequency" class="form-control" />
+                    <span asp-validation-for="Frequency" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Створити" class="btn btn-primary" />
+                </div>
+            </form>
+        }
+        else 
+        {
+            <form asp-action="CreateFromIllness">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @if (ViewBag.SymptomChosenId != -1)
+                {
+                    <div class="form-group">
+                        <label asp-for="Illness.Name" class="control-label"></label>
+                        <select asp-for="IllnessId" class="form-control" asp-items="ViewBag.IllnessId"></select>
+                    </div>
+                    <input type="hidden" value="@ViewBag.SymptomChosenId" name="SymptomId" />
+                }
+                else if (ViewBag.IllnessChosenId != -1)
+                {
+                    <input type="hidden" value="@ViewBag.IllnessChosenId" name="IllnessId" />
+                    <div class="form-group">
+                        <label asp-for="Symptom.Name" class="control-label"></label>
+                        <select asp-for="SymptomId" class="form-control" asp-items="ViewBag.SymptomId"></select>
+                    </div>
+                }
+                <div class="form-group">
+                    <label asp-for="Frequency" class="control-label"></label>
+                    <input asp-for="Frequency" class="form-control" />
+                    <span asp-validation-for="Frequency" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Створити" class="btn btn-primary" />
+                </div>
+            </form>
+        }
+    </div>
+</div>
+
+<div>
+    @if (ViewBag.IllnessChosenId != -1)
+    {
+        <a asp-action="IndexByIllness" asp-route-id="@ViewBag.IllnessChosenId" asp-route-name="@ViewBag.IllnessName">Назад</a>
+    }
+    else
+    {
+        <a asp-action="IndexBySymptom" asp-route-id="@ViewBag.SymptomChosenId" asp-route-name="@ViewBag.SymptomName">Назад</a>
+    }
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

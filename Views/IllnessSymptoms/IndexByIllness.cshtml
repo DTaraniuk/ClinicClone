@@ -1,0 +1,58 @@
+﻿@model IEnumerable<ClinicWebApplication.IllnessSymptom>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@*    
+<table width="100%">
+    <tr>
+        <td>
+            @Html.ActionLink("До всіх хвороб", "GoToIllnesses")
+        </td>
+        <td>
+            @Html.ActionLink("До всіх симптомів", "GoToSymptoms")
+        </td>
+    </tr>
+</table>
+*@
+
+<h1>Симптоми хвороби @ViewBag.IllnessName</h1>
+<p>
+    <a asp-action="Create" asp-route-illnessId="@ViewBag.IllnessId" asp-route-symptomId="-1">Додати новий симптом до хвороби @ViewBag.IllnessName</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Frequency)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Illness)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Symptom)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Frequency)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Illness.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Symptom.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" asp-route-illnessId="@ViewBag.IllnessId" asp-route-symptomId="-1">Редагувати</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" asp-route-illnessId="@ViewBag.IllnessId" asp-route-symptomId="-1">Видалити</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

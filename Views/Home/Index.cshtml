@@ -2,7 +2,139 @@
     ViewData["Title"] = "Home Page";
 }
 
+@if (User.Identity.IsAuthenticated)
+{
+    <p>@User.Identity.Name</p>
+
+    <form method="post" asp-controller="Account" asp-action="Logout">
+        <input type="submit" value="Вихід" />
+    </form>
+}
+else
+{
+    <a asp-controller="Account" asp-action="Login">Вхід</a>
+    <a asp-controller="Account" asp-action="Register">Реєстрація</a>
+}
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Ласкаво просимо</h1>
 </div>
+
+<a href="Cities/Index">Обрати лікарню</a>
+<br>
+<a href="Symptoms/Index">Визначити хворобу</a>
+<br>
+<a href="Appointments/Create/">Записатися</a>
+<br>
+<a href="Hospitalizations/Create/">Госпіталізувати</a>
+<br>
+<a href="Diagnoses/Create/">Поставити діагноз</a>
+<br>
+<br>
+<table width="100%">
+    <tr>
+        <td>
+            <a href="Patients/Index/">До пацієнтів</a>
+        </td>
+        <td>
+            <a href="Patients/Create/">Додати пацієнта</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="PatientSymptoms/Index/">До пацієнт-симптомів</a>
+        </td>
+        <td>
+            <a href="PatientSymptoms/Create/">Додати пацієнт-симптом</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="Symptoms/Index/">До симптомів </a>
+        </td>
+        <td>
+            <a href="Symptoms/Create/">Додати симптом </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="Illnesses/Index/">До хвороб </a>
+        </td>
+        <td>
+            <a href="Illnesses/Create/">Додати хворобу </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="IllnessSymptoms/Index/">До симптомів-хвороб </a>
+        </td>
+        <td>
+            <a href="IllnessSymptoms/Create/">Додати симптом-хворобу </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="Schedules/Index/">До графіків роботи </a>
+        </td>
+        <td>
+            <a href="Schedules/Create/">Додати графік роботи </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="Offices/Index/">До кабінетів </a>
+        </td>
+        <td>
+            <a href="Offices/Create/">Додати кабінет </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="Doctors/Index/">До лікарів </a>
+        </td>
+        <td>
+            <a href="Doctors/Create/">Додати лікаря </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="Specialities/Index/">До спеціальностей </a>
+        </td>
+        <td>
+            <a href="Specialities/Create/">Додати спеціальність </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="DoctorSpecialities/Index/">До спеціальностей лікарів </a>
+        </td>
+        <td>
+            <a href="DoctorSpecialities/Create/">Додати спеціальність лікарю </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="DoctorOffices/Index/">До лікар-кабінетів </a>
+        </td>
+        <td>
+            <a href="DoctorOffices/Create/">Додати пару лікар-кабінет </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="Departments/Index/">До відділів </a>
+        </td>
+        <td>
+            <a href="Departments/Create/">Додати відділ </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="Wards/Index/">До палат </a>
+        </td>
+        <td>
+            <a href="Wards/Create/">Додати палату </a>
+        </td>
+    </tr>
+</table>
+

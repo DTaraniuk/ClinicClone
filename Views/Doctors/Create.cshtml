@@ -1,0 +1,98 @@
+﻿@model ClinicWebApplication.Doctor
+
+@{
+    ViewData["Title"] = "Створити";
+}
+
+@if (ViewBag.DepartmentChosenId != null)
+{
+    <h4>Створити лікаря у відділі @ViewBag.DepartmentChosenName</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create" asp-route-depId="@ViewBag.DepartmenChosentId">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                @if (@Model != null)
+                {@Model.Department.Name}
+
+                <input type="hidden" value="@ViewBag.DepartmentChosenId" name="DepartmentId" />
+
+                <div class="form-group">
+                    <input type="submit" value="Створити" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <div>
+        <a asp-action="Index" asp-route-departmentId="@ViewBag.DepartmentChosenId">До списку</a>
+    </div>
+}
+else if (ViewBag.SpecialityChosenId != null)
+{
+    <h4>Створити лікаря за спеціальністю @ViewBag.SpecialityChosenName</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create" asp-route-specId="@ViewBag.SpecialityChosenId">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                @if (@Model != null)
+                {@Model.Department.Name}
+                <div class="form-group">
+                    <label asp-for="DepartmentId" class="control-label"></label>
+                    <select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.DepartmentId"></select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Створити" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <div>
+        <a asp-action="Index" asp-route-specialityId="@ViewBag.SpecialityChosenId">До списку</a>
+    </div>
+}
+
+else
+{
+    <h4>Створити лікаря</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                @if (@Model != null)
+                {@Model.Department.Name}
+                <div class="form-group">
+                    <label asp-for="Department.Name" class="control-label"></label>
+                    <select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.DepartmentId"></select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Створити" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <div>
+        <a asp-action="Index">До списку</a>
+    </div>
+}
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

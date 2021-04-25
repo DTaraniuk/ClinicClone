@@ -1,0 +1,114 @@
+﻿@model IEnumerable<ClinicWebApplication.Illness>
+
+@{
+    ViewData["Title"] = "Index";
+}
+@if (ViewBag.SymptomId != null)
+{
+    <h1>Хвороби з симптомом @ViewBag.SymptomName</h1>
+    <p>
+        <a asp-action="Index">Всі хвороби</a>
+    </p>
+    <p>
+        @Html.ActionLink("Додати симптом " + (@String)(ViewBag.SymptomName) + " в нову хворобу", "CreateIS", new { symptomId = @ViewBag.SymptomId })
+    </p>
+}
+else
+{
+    <h1>Всі хвороби</h1>
+    <p>
+        <a asp-action="Create">Додати нову</a>
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @if (ViewBag.SymptomId == null)
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a>
+                        <abc>|</abc>
+                    }
+                    else
+                    {
+                        <a asp-action="EditIS" asp-route-id="@item.Id" asp-route-symptomId="@ViewBag.SymptomId">Редагувати</a>
+                        <abc>|</abc>
+                    }
+                    <a asp-action="Details" asp-route-id="@item.Id">Деталі</a>
+                    @if (ViewBag.SymptomId == null)
+                    {
+                        <abc>|</abc>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+                    }
+                    else
+                    {
+                        <abc>|</abc>
+                        <a asp-action="DeleteIS" asp-route-id="@item.Id" asp-route-symptomId="@ViewBag.SymptomId">Видалити</a>
+                    }
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<div class="container">
+    <div id="chart1"></div>
+    <div class="container">
+        <div id="chart1"></div>
+    </div>
+    @section scripts{
+        <script type "text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script>
+            google.charts.load('current', { 'packages': ['corechart'] });
+            google.charts.setOnLoadCallback(drawChart);
+
+            function drawChart() {
+
+                $.get('/api/IllnessesSymptomsChart/JsonData', function (JsonData) {
+                    data = google.visualization.arrayToDataTable(JsonData, false);
+                    var option = {
+                        title: "Для кожної хвороби кількість симтомів",
+                        width: 500,
+                        height: 400
+                    };
+                    chart = new google.visualization.ColumnChart(document.getElementById('chart1'));
+                    chart.draw(data, option);
+                })
+            }
+        </script>
+    }
+
+
+
+    <div>
+    <h3>Додати/оновити дані про хвороби з Excel-файлу</h3>
+        @using (Html.BeginForm("Import", "Illnesses", FormMethod.Post, new { enctype = "multipart/form-data", id = "frm-excel" }))
+        {
+            <div>
+                Завантажте Excel-файл:
+                <input type="file" name="fileExcel" id="fileExcel"/>
+                <div>
+                    <input type="submit" value="Завантажити" class="btn btn-primary" />
+                </div>
+            </div>
+        }
+    </div>
+
+    <h3> Завантаження Інформації в файл</h3>
+    <form asp-action="Export">
+        <button class="btn btn-primary"> Завантажити </button>
+    </form>
